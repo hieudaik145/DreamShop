@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+<title></title>
+<link th:href="@{/resources/css/bootstrap.min.css}"
+	href="css/bootstrap.min.css" rel="stylesheet">
+<link th:href="@{/resources/css/font-awesome.min.css}"
+	href="css/font-awesome.min.css" rel="stylesheet">
+<link th:href="@{/resources/css/prettyPhoto.css}"
+	href="css/prettyPhoto.css" rel="stylesheet">
+<link th:href="@{/resources/css/price-range.css}"
+	href="css/price-range.css" rel="stylesheet">
+<link th:href="@{/resources/css/animate.css}" href="css/animate.css"
+	rel="stylesheet">
+<link th:href="@{/resources/css/main.css}" href="css/main.css"
+	rel="stylesheet">
+<link th:href="@{/resources/css/responsive.css}"
+	href="css/responsive.css" rel="stylesheet">
+<!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+<link th:href="@{/resources/images/ico/favicon.ico}" rel="shortcut icon"
+	href="images/ico/favicon.ico">
+<link
+	th:href="@{/resources/images/ico/apple-touch-icon-144-precomposed.png}"
+	rel="apple-touch-icon-precomposed" sizes="144x144"
+	href="images/ico/apple-touch-icon-144-precomposed.png">
+<link
+	th:href="@{/resources/images/ico/apple-touch-icon-114-precomposed.png}"
+	rel="apple-touch-icon-precomposed" sizes="114x114"
+	href="images/ico/apple-touch-icon-114-precomposed.png">
+<link
+	th:href="@{/resources/images/ico/apple-touch-icon-72-precomposed.png}"
+	rel="apple-touch-icon-precomposed" sizes="72x72"
+	href="images/ico/apple-touch-icon-72-precomposed.png">
+<link
+	th:href="@{/resources/images/ico/apple-touch-icon-57-precomposed.png}"
+	rel="apple-touch-icon-precomposed"
+	href="images/ico/apple-touch-icon-57-precomposed.png">
+<body>
+
+	<header th:include="header :: header" id="header">
+		<!--header-->
+
+	</header>
+	<!--/header-->
+
+	<section>
+		<div class="container">
+			<div class="row">
+				<table class="table">
+					<thead class="thead-light">
+						<tr>
+							<th scope="col">Id</th>
+							<th scope="col">Name</th>
+							<th scope="col">Email</th>
+							<th scope="col">Address</th>
+							<th scope="col">SoDT</th>
+							<th scope="col">Delete</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="customer :${customerList}">
+							<th scope="row" th:text="${customer.id}">1</th>
+							<td th:text="${customer.userAcount.id}">Mark</td>
+							<td th:text="${customer.userAcount.email}">Otto</td>
+							<td th:text="${customer.Address}">@mdo</td>
+							<td th:text="${customer.sdt}">@mdo</td>
+							<td ><a th:data-idcus="${customer.id}" class="delete-customer" th:href="@{/delete/{id}(id=${customer.id})}"><i class="fa fa-times"></i></a></td>
+						</tr>
+						
+					
+					</tbody>
+				</table>
+
+			</div>
+		</div>
+	</section>
+
+	<footer th:include="footer :: footer" id="footer">
+		<!--Footer-->
+
+	</footer>
+	<!--/Footer-->
+
+	<script th:src="@{/resources/js/jquery.js}" src="js/jquery.js"></script>
+	<script th:src="@{/resources/js/bootstrap.min.js}"
+		src="js/bootstrap.min.js"></script>
+	<script th:src="@{/resources/js/jquery.scrollUp.min.js}"
+		src="js/jquery.scrollUp.min.js"></script>
+	<script th:src="@{/resources/js/price-range.js}"
+		src="js/price-range.js"></script>
+	<script th:src="@{/resources/js/jquery.prettyPhoto.js}"
+		src="js/jquery.prettyPhoto.js"></script>
+	<script th:src="@{/resources/js/main.js}" src="js/main.js"></script>
+	<script th:src="@{/resources/js/notify.js}"></script>
+	<script th:src="@{/resources/js/custom.js}"></script>
+</body>
+</html>

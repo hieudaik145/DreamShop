@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+   <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title></title>
+    <link th:href="@{/resources/css/bootstrap.min.css}" href="css/bootstrap.min.css" rel="stylesheet">
+    <link  th:href="@{/resources/css/font-awesome.min.css}" href="css/font-awesome.min.css" rel="stylesheet">
+    <link  th:href="@{/resources/css/prettyPhoto.css}" href="css/prettyPhoto.css" rel="stylesheet">
+    <link  th:href="@{/resources/css/price-range.css}" href="css/price-range.css" rel="stylesheet">
+    <link  th:href="@{/resources/css/animate.css}" href="css/animate.css" rel="stylesheet">
+	<link  th:href="@{/resources/css/main.css}" href="css/main.css" rel="stylesheet">
+	<link  th:href="@{/resources/css/responsive.css}" href="css/responsive.css" rel="stylesheet">
+	
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->       
+    <link  th:href="@{/resources/images/ico/favicon.ico}" rel="shortcut icon" href="images/ico/favicon.ico">
+    <link  th:href="@{/resources/images/ico/apple-touch-icon-144-precomposed.png}" rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
+    <link  th:href="@{/resources/images/ico/apple-touch-icon-114-precomposed.png}" rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
+    <link  th:href="@{/resources/images/ico/apple-touch-icon-72-precomposed.png}" rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
+    <link  th:href="@{/resources/images/ico/apple-touch-icon-57-precomposed.png}" rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
+    <link rel="stylesheet" type="text/css" th:href="@{/resources/jquery-confirm/css/jquery-confirm.css}"/>
+    
+</head><!--/head-->
+
+<body>
+	<header th:include="header :: header" id="header"><!--header-->
+		
+	</header><!--/header-->
+	<section id="cart_items">
+		<div class="container">
+			<div class="breadcrumbs">
+				<ol class="breadcrumb">
+				  <li><a href="#">Home</a></li>
+				  <li class="active">Shopping Cart</li>
+				</ol>
+			</div>
+			<div class="table-responsive cart_info" th:unless="${cart.empty}">
+				<table class="table table-condensed cart-table">
+					<thead>
+						<tr class="cart_menu">
+							<td class="image">Item</td>
+							<td class="description"></td>
+							<td class="price">Price</td>
+							<td class="quantity">Quantity</td>
+							<td class="total">Total</td>
+							<td></td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr  th:each="item : ${cart} ">
+							<td class="cart_product">
+								<a href=""><img th:src="@{/resources/images/home/{image}(image=${item.product.image})}"   src="images/cart/one.png" alt=""></a>
+							</td>
+							<td class="cart_description">
+								<h4><a th:href="@{/detail/{id}(id=${item.product.id})}" href="" th:text="${item.productName}">Colorblock Scuba</a></h4>
+								<p th:text="${item.product.id}" th:attr="data-iditem=${item.id}" id="idp">Web ID: 1089772</p>
+							</td>
+							<td class="cart_price">
+								<p  th:text="${item.product.price}">$59</p>
+							</td>
+							<td class="cart_quantity">
+								<div class="cart_quantity_button">
+									<a class="cart_quantity_up" href=""> + </a>
+									<input class="cart_quantity_input" type="text" name="quantity" th:value="${item.quantity}" autocomplete="off" size="2">
+									<a class="cart_quantity_down" href=""> - </a>
+								</div>
+							</td>
+							<td class="cart_total">
+								<p th:text="${{item.price}}" class="cart_total_price">$59</p>
+							</td>
+							<td class="cart_delete">
+								<a class="cart_quantity_delete" th:href="@{/cart/{id}(id=${item.id})}" href=""><i class="fa fa-times"></i></a>
+							</td>
+						</tr>
+
+						
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</section> <!--/#cart_items-->
+
+	<section id="do_action">
+		<div class="container">
+			<div class="heading">
+				<h3>What would you like to do next?</h3>
+				<p>Choose if you have a discount code or reward points you want to use or would like to estimate your delivery cost.</p>
+			</div>
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="chose_area">
+							
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<div class="total_area">
+						<ul>
+							<li>Cart Sub Total <span th:text="${{cart.price}}">$59</span></li>
+							<li>Eco Tax <span>$2</span></li>
+							<li>Shipping Cost <span>Free</span></li>
+							<li>Total <span id="total" th:text="${{cart.price}}" style="color: #FE980F">$61</span ></li>
+						</ul>
+							<a class="btn btn-default update " id="update-cart" >Update</a>
+							<a  sec:authorize="hasRole('ROLE_CUSTOMER')" th:href="@{/checkout}" class="btn btn-default check_out" href="">Check Out</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section><!--/#do_action-->
+
+	<footer th:include="footer :: footer" id="footer"><!--Footer-->
+	
+		
+	</footer><!--/Footer-->
+	
+
+
+    <script th:src="@{/resources/js/jquery.js}" src="js/jquery.js"></script>
+	<script th:src="@{/resources/js/bootstrap.min.js}" src="js/bootstrap.min.js"></script>
+	<script th:src="@{/resources/js/jquery.scrollUp.min.js}" src="js/jquery.scrollUp.min.js"></script>
+	<script th:src="@{/resources/js/price-range.js}" src="js/price-range.js"></script>
+    <script th:src="@{/resources/js/jquery.prettyPhoto.js}" src="js/jquery.prettyPhoto.js"></script>
+    <script th:src="@{/resources/js/main.js}" src="js/main.js"></script>
+    <script th:src="@{/resources/js/notify.js}" ></script>
+    <script type="text/javascript" th:src="@{/resources/jquery-confirm/js/jquery-confirm.js}" ></script>
+    <script th:src="@{/resources/js/custom.js}" ></script>
+</body>
+</html>
