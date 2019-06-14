@@ -98,7 +98,7 @@ $(document).ready(function(){
 		var tongtien = $("#total").text();
 		$.confirm({
 		    title: 'Thông Báo!',
-		    content: 'Bạn Có Chắc Muốn Check Out <br/>Tổng Tiền: <span style="color:red;">'+tongtien+' </span>',
+		    content: 'Bạn Có Chắc Muốn Thanh Toán <br/>Tổng Tiền: <span style="color:red;">'+tongtien+' </span>',
 		    type: 'red',
 		    typeAnimated: true,
 		    buttons: {

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+<title></title>
+<link th:href="@{/resources/css/bootstrap.min.css}"
+	href="css/bootstrap.min.css" rel="stylesheet">
+<link th:href="@{/resources/css/font-awesome.min.css}"
+	href="css/font-awesome.min.css" rel="stylesheet">
+<link th:href="@{/resources/css/prettyPhoto.css}"
+	href="css/prettyPhoto.css" rel="stylesheet">
+<link th:href="@{/resources/css/price-range.css}"
+	href="css/price-range.css" rel="stylesheet">
+<link th:href="@{/resources/css/animate.css}" href="css/animate.css"
+	rel="stylesheet">
+<link th:href="@{/resources/css/main.css}" href="css/main.css"
+	rel="stylesheet">
+<link th:href="@{/resources/css/responsive.css}"
+	href="css/responsive.css" rel="stylesheet">
+<link th:href="@{/resources/css/styles.css}"
+	href="css/font-awesome.min.css" rel="stylesheet">
+<!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+<link th:href="@{/resources/images/ico/favicon.ico}" rel="shortcut icon"
+	href="images/ico/favicon.ico">
+<link
+	th:href="@{/resources/images/ico/apple-touch-icon-144-precomposed.png}"
+	rel="apple-touch-icon-precomposed" sizes="144x144"
+	href="images/ico/apple-touch-icon-144-precomposed.png">
+<link
+	th:href="@{/resources/images/ico/apple-touch-icon-114-precomposed.png}"
+	rel="apple-touch-icon-precomposed" sizes="114x114"
+	href="images/ico/apple-touch-icon-114-precomposed.png">
+<link
+	th:href="@{/resources/images/ico/apple-touch-icon-72-precomposed.png}"
+	rel="apple-touch-icon-precomposed" sizes="72x72"
+	href="images/ico/apple-touch-icon-72-precomposed.png">
+<link
+	th:href="@{/resources/images/ico/apple-touch-icon-57-precomposed.png}"
+	rel="apple-touch-icon-precomposed"
+	href="images/ico/apple-touch-icon-57-precomposed.png">
+<body>
+
+	
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+<title></title>
+<link th:href="@{/resources/css/bootstrap.min.css}"
+	href="css/bootstrap.min.css" rel="stylesheet">
+<link th:href="@{/resources/css/font-awesome.min.css}"
+	href="css/font-awesome.min.css" rel="stylesheet">
+<link th:href="@{/resources/css/prettyPhoto.css}"
+	href="css/prettyPhoto.css" rel="stylesheet">
+<link th:href="@{/resources/css/price-range.css}"
+	href="css/price-range.css" rel="stylesheet">
+<link th:href="@{/resources/css/animate.css}" href="css/animate.css"
+	rel="stylesheet">
+<link th:href="@{/resources/css/main.css}" href="css/main.css"
+	rel="stylesheet">
+<link th:href="@{/resources/css/responsive.css}"
+	href="css/responsive.css" rel="stylesheet">
+<link th:href="@{/resources/css/styles.css}"
+	href="css/font-awesome.min.css" rel="stylesheet">
+<!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+<link th:href="@{/resources/images/ico/favicon.ico}" rel="shortcut icon"
+	href="images/ico/favicon.ico">
+<link
+	th:href="@{/resources/images/ico/apple-touch-icon-144-precomposed.png}"
+	rel="apple-touch-icon-precomposed" sizes="144x144"
+	href="images/ico/apple-touch-icon-144-precomposed.png">
+<link
+	th:href="@{/resources/images/ico/apple-touch-icon-114-precomposed.png}"
+	rel="apple-touch-icon-precomposed" sizes="114x114"
+	href="images/ico/apple-touch-icon-114-precomposed.png">
+<link
+	th:href="@{/resources/images/ico/apple-touch-icon-72-precomposed.png}"
+	rel="apple-touch-icon-precomposed" sizes="72x72"
+	href="images/ico/apple-touch-icon-72-precomposed.png">
+<link
+	th:href="@{/resources/images/ico/apple-touch-icon-57-precomposed.png}"
+	rel="apple-touch-icon-precomposed"
+	href="images/ico/apple-touch-icon-57-precomposed.png">
+<body>
+
+	<header th:include="header :: header" id="header">
+		<!--header-->
+
+	</header>
+	<!--/header-->
+
+	<section>
+		<div class="container">
+			<div class="row">
+				<button type="button" class="btn btn-primary" data-toggle="modal"
+					data-target="#addProduct">Thêm Sản Phẩm</button>
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Tên Sản Phẩm</th>
+							<th>Giá Tiền</th>
+							<th>Type</th>
+							<th>Loại Sản Phẩm</th>
+							<th>Mô Tả</th>
+							<th>Types</th>
+							<th>Edit</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="sanpham : ${listProduct}">
+							<th scope="row" th:text="${sanpham.name}">Name</th>
+							<td th:text="${sanpham.price}">Price</td>
+							<td th:text="${sanpham.image}">Image</td>
+							<td th:text="${sanpham.loaiSanPham}">LoaiSanPham</td>
+							<td th:text="${sanpham.mota}">MoTa</td>
+							<td th:text="${sanpham.types}">Type</td>
+							<td><button type="button" class="btn btn-primary" data-toggle="modal"
+							th:data-target="'#'+${sanpham.id}">Chỉnh Sửa</button></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</section>
+	
+	
+	<!-- modal them -->
+	<div class="modal fade" id="addProduct" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLongTitle">Thêm Sản
+						Phẩm</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form th:action="@{/add-product}" method="post" role="form">
+						<div class="form-group">
+							<label for="exampleFormControlInput1">Tên Sản Phẩm</label> <input
+								type="text" class="form-control" id="exampleFormControlInput1"
+								placeholder="nhập tên sản phẩm..." name="name">
+						</div>
+						<div class="form-group">
+							<label for="exampleFormControlInput1">Giá Tiền</label> <input
+								type="text" class="form-control" id="exampleFormControlInput1"
+								placeholder="nhập price.." name="price">
+						</div>
+						<div class="form-group">
+							<label for="exampleFormControlInput1">Số Lượng</label> <input
+								type="number" min=0 class="form-control" id="exampleFormControlInput1"
+								placeholder="nhập số lượng..." name="soLuong">
+						</div>
+						<div class="form-group">
+							<label for="exampleFormControlSelect1">Loại Sản Phẩm</label> <select
+								class="form-control" id="exampleFormControlSelect1" name="loaiSanPham">
+								<option value="aothun">Áo Thun</option>
+								<option value="aokhoat">Áo Khoát</option>
+								<option value="aosomi">Áo Sơ Mi</option>
+								<option value="quandai">Quần Dài</option>
+								<option value="quanngan">Quần Ngắn</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="exampleFormControlSelect1">Types</label> <select
+								class="form-control" id="exampleFormControlSelect1" name="types">
+								<option value="men" >Mens</option>
+								<option value="women">Women</option>
+								<option value="kid">Kid</option>
+							</select>
+						</div>
+						
+						<label for="exampleFormControlFile1">Chọn hình ảnh</label>
+    					<input type="file" class="form-control-file" id="exampleFormControlFile1" name="image">
+						<div class="form-group" >
+							<label for="exampleFormControlTextarea1">Mô Tả</label>
+							<textarea class="form-control" id="exampleFormControlTextarea1"
+								rows="3" placeholder="mô tả..." name="moTa"></textarea>
+						</div>
+						<button type="submit" class="btn btn-primary">Thêm Sản Phẩm</button>
+					</form>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- modal update -->
+	<div th:each="sanpham : ${listProduct}" class="modal fade" th:id="${sanpham.id}" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalCenterTitle" aria-hidden="true" >
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLongTitle">Chỉnh Sửa Sản Phẩm</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form th:action="@{/update-product/{id}(id=${sanpham.id})}" method="post" role="form">
+						<div class="form-group">
+							<label for="exampleFormControlInput1">Tên Sản Phẩm</label> <input
+								type="text" class="form-control" id="exampleFormControlInput1"
+								placeholder="nhập tên sản phẩm..." name="name" th:value="${sanpham.name}">
+						</div>
+						<div class="form-group">
+							<label for="exampleFormControlInput1">Giá Tiền</label> <input
+								type="text" class="form-control" id="exampleFormControlInput1"
+								placeholder="nhập price.." name="price" th:value="${sanpham.price}">
+						</div>
+						
+						<div class="form-group">
+							<label for="exampleFormControlSelect1">Loại Sản Phẩm</label> <select
+								class="form-control" id="exampleFormControlSelect1" name="loaiSanPham" >
+								<option th:value="${sanpham.loaiSanPham}" th:text="${sanpham.loaiSanPham}">Áo Thun</option>
+								<option value="aothun">Áo Thun</option>
+								<option value="aokhoat">Áo Khoát</option>
+								<option value="aosomi">Áo Sơ Mi</option>
+								<option value="quandai">Quần Dài</option>
+								<option value="quanngan">Quần Ngắn</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="exampleFormControlSelect1">Types</label> <select
+								class="form-control" id="exampleFormControlSelect1" name="types">
+								<option th:value="${sanpham.types}" th:text="${sanpham.types}" >Mens</option>
+								<option value="man" >Man</option>
+								<option value="women">Women</option>
+								<option value="kid">Kid</option>
+							</select>
+						</div>
+						
+						<label for="exampleFormControlFile1">Chọn hình ảnh</label>
+						<p th:text="${sanpham.image}" ></p>
+    					<input type="file" class="form-control-file" id="exampleFormControlFile1" name="image" th:value="${sanpham.image}" >
+						<div class="form-group" >
+							<label for="exampleFormControlTextarea1">Mô Tả</label>
+							<textarea class="form-control" id="exampleFormControlTextarea1"
+								rows="3" placeholder="mô tả..." name="moTa" th:text="${sanpham.mota}"></textarea>
+						</div>
+						<button type="submit" class="btn btn-primary">Cập nhật</button>
+					</form>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+
+	<footer th:include="footer :: footer" id="footer">
+		<!--Footer-->
+
+	</footer>
+	<!--/Footer-->
+
+	<script th:src="@{/resources/js/jquery.js}" src="js/jquery.js"></script>
+	<script th:src="@{/resources/js/bootstrap.min.js}"
+		src="js/bootstrap.min.js"></script>
+	<script th:src="@{/resources/js/jquery.scrollUp.min.js}"
+		src="js/jquery.scrollUp.min.js"></script>
+	<script th:src="@{/resources/js/price-range.js}"
+		src="js/price-range.js"></script>
+	<script th:src="@{/resources/js/jquery.prettyPhoto.js}"
+		src="js/jquery.prettyPhoto.js"></script>
+	<script th:src="@{/resources/js/main.js}" src="js/main.js"></script>
+	<script th:src="@{/resources/js/notify.js}"></script>
+	<script th:src="@{/resources/js/custom.js}"></script>
+</body>
+				</html>

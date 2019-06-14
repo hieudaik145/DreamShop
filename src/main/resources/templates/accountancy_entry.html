@@ -47,6 +47,54 @@
 	href="images/ico/apple-touch-icon-57-precomposed.png">
 <body>
 
+	
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+<title></title>
+<link th:href="@{/resources/css/bootstrap.min.css}"
+	href="css/bootstrap.min.css" rel="stylesheet">
+<link th:href="@{/resources/css/font-awesome.min.css}"
+	href="css/font-awesome.min.css" rel="stylesheet">
+<link th:href="@{/resources/css/prettyPhoto.css}"
+	href="css/prettyPhoto.css" rel="stylesheet">
+<link th:href="@{/resources/css/price-range.css}"
+	href="css/price-range.css" rel="stylesheet">
+<link th:href="@{/resources/css/animate.css}" href="css/animate.css"
+	rel="stylesheet">
+<link th:href="@{/resources/css/main.css}" href="css/main.css"
+	rel="stylesheet">
+<link th:href="@{/resources/css/responsive.css}"
+	href="css/responsive.css" rel="stylesheet">
+<link th:href="@{/resources/css/styles.css}"
+	href="css/font-awesome.min.css" rel="stylesheet">
+<!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+<link th:href="@{/resources/images/ico/favicon.ico}" rel="shortcut icon"
+	href="images/ico/favicon.ico">
+<link
+	th:href="@{/resources/images/ico/apple-touch-icon-144-precomposed.png}"
+	rel="apple-touch-icon-precomposed" sizes="144x144"
+	href="images/ico/apple-touch-icon-144-precomposed.png">
+<link
+	th:href="@{/resources/images/ico/apple-touch-icon-114-precomposed.png}"
+	rel="apple-touch-icon-precomposed" sizes="114x114"
+	href="images/ico/apple-touch-icon-114-precomposed.png">
+<link
+	th:href="@{/resources/images/ico/apple-touch-icon-72-precomposed.png}"
+	rel="apple-touch-icon-precomposed" sizes="72x72"
+	href="images/ico/apple-touch-icon-72-precomposed.png">
+<link
+	th:href="@{/resources/images/ico/apple-touch-icon-57-precomposed.png}"
+	rel="apple-touch-icon-precomposed"
+	href="images/ico/apple-touch-icon-57-precomposed.png">
+<body>
+
 	<header th:include="header :: header" id="header">
 		<!--header-->
 
@@ -56,29 +104,33 @@
 	<section>
 		<div class="container">
 			<div class="row">
-				<table class="table ">
-					<thead class="thead-dark ">
+				<button type="button" class="btn btn-primary" data-toggle="modal"
+					data-target="#addProduct">Thêm Sản Phẩm</button>
+				<table class="table table-striped">
+					<thead>
 						<tr>
-							<th scope="col">Tên Sản Phẩm</th>
-							<th scope="col">Số Lượng</th>
-							<th scope="col">Cập Nhật </th>
-							<th scope="col">Xóa</th>
+							<th>Date</th>
+							<th>Description</th>
+							<th>Value</th>
+							<!-- <th>Order_ID</th>
+							<th>User ID</th>
+							<th>PAYMENT_METHOD </th> -->
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="inventory :${stock}">
-							<td th:text="${inventory.product.name}">Mark</td>
-							<form th:action="@{/update-stock/{id}(id=${inventory.id})}" method="post">
-							<td> <input type="number" th:value="${inventory.quantity}" min="1" name="quantity"></td>
-							<td><button class="btn btn-primary">Update</button></td>
-							<td><a class="btn btn-primary" th:href="@{/delete-stock/{id}(id=${inventory.id})}">Delete </a></td>
-							</form>
+						<tr th:each="accountacy : ${accountacy}">
+							<th scope="row" th:text="${accountacy.date}">Name</th>
+							<td th:text="${accountacy.description}">Image</td>
+							<td th:text="${accountacy.value}"></td>
+							
 						</tr>
 					</tbody>
 				</table>
 			</div>
 		</div>
 	</section>
+	
+	
 
 
 	<footer th:include="footer :: footer" id="footer">

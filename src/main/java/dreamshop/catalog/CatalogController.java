@@ -1,5 +1,7 @@
 package dreamshop.catalog;
 
+import static org.salespointframework.core.Currencies.EURO;
+
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -7,20 +9,25 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Range;
+import org.javamoney.moneta.Money;
 import org.salespointframework.inventory.Inventory;
 import org.salespointframework.inventory.InventoryItem;
 import org.salespointframework.quantity.Quantity;
 import org.salespointframework.time.BusinessTime;
+import org.salespointframework.useraccount.UserAccount;
 import org.salespointframework.useraccount.UserAccountManager;
+import org.salespointframework.useraccount.web.LoggedIn;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.google.common.collect.Iterables;
 
@@ -60,9 +67,24 @@ public class CatalogController {
 	}
 
 	@GetMapping("/men")
-	public String getWomenCatalog(Model model) {
+	public String getMenCatalog(Model model) {
+		
 		model.addAttribute("title", "MENS");
 		model.addAttribute("sanpham", sanPhamCatalog.findByType(SanPhamType.MAN));
+		return "shop";
+	}
+	@GetMapping("/women")
+	public String getWomenCatalog(Model model) {
+		model.addAttribute("title","WOMENS");
+		model.addAttribute("sanpham",sanPhamCatalog.findByType(SanPhamType.WOMEN));
+		return "shop";
+	}
+	
+	@GetMapping("/kid")
+	public String getKidsCatalog(Model model) {
+		model.addAttribute("title","KIDS");
+		model.addAttribute("sanpham",sanPhamCatalog.findByType(SanPhamType.KID));
+		
 		return "shop";
 	}
 
@@ -220,14 +242,15 @@ public class CatalogController {
 	//wish list function
 	@GetMapping("wishlist/{pid}")
 	@PreAuthorize("hasRole('CUSTOMER')")
-	public String WishList(@PathVariable("pid")SanPham sanPham) {
+	public String WishList(@PathVariable("pid")SanPham sanPham ) {
+		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String name = auth.getName();
 		
 		Iterable<Customer> customer =  customerManager.findByUserAcount(userAcountManager.findByUsername(name).get());
 		
 		Customer cus = Iterables.get(customer, 0);
-		 
+		
 			if(!cus.getListWishlist().contains(sanPham)) {
 				cus.addToWishlist(sanPham);
 			}
@@ -240,10 +263,11 @@ public class CatalogController {
 	@PreAuthorize("hasRole('CUSTOMER')")
 	public String ListWishlish(Model model) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	
 		String name = auth.getName();
 		Iterable<Customer> customer =  customerManager.findByUserAcount(userAcountManager.findByUsername(name).get());
-		Iterables.get(customer, 0);
-		model.addAttribute("customer",Iterables.get(customer, 0));
+		Customer cus =Iterables.get(customer, 0);
+		model.addAttribute("customer",cus);
 		return "wishlist";
 	}
 	
@@ -254,7 +278,6 @@ public class CatalogController {
 		String name = auth.getName();
 		
 		Iterable<Customer> customer =  customerManager.findByUserAcount(userAcountManager.findByUsername(name).get());
-		
 		customer.forEach(cus ->{
 			cus.getListWishlist().remove(sanPham);
 			customerRepository.save(cus);
@@ -263,6 +286,92 @@ public class CatalogController {
 	}
 	//end wishlist function
 	
+	@PreAuthorize("hasRole('BOSS')")
+	@GetMapping("/product-manager")
+	public String productManager(Model model) {
+		model.addAttribute("listProduct", sanPhamCatalog.findAll());
+		
+		return "product-manager";
+	}
+
+	@PostMapping("/add-product")
+	public String addProducdt(@Valid SanPhamForm form,Errors result) {
+		
+		if (result.hasErrors()) {
+			return "redirect:/product-manager";
+		}
+		
+		SanPhamType type = null;
+		if(form.getTypes().toLowerCase().equals("man")) {
+			type = SanPhamType.MAN;
+			
+		}else if(form.getTypes().toLowerCase().equals("women")) {
+			type = SanPhamType.WOMEN;
+		}else {
+			type = SanPhamType.KID;
+		}
+		LoaiSanPham loaisp = null;
+		if(form.getLoaiSanPham().toLowerCase().equals("aothun")) {
+			loaisp=LoaiSanPham.AOTHUN;
+		}else if(form.getLoaiSanPham().toLowerCase().equals("aokhoat")) {
+			loaisp = LoaiSanPham.AOKHOAT;
+		}else if(form.getLoaiSanPham().toLowerCase().equals("aosomi")) {
+			loaisp = LoaiSanPham.AOSOMI;
+		}else if(form.getLoaiSanPham().toLowerCase().equals("quandai")){
+			loaisp = LoaiSanPham.QUANDAI;
+		}else {
+			loaisp = LoaiSanPham.QUANNGAN;
+		}
+		SanPham sp = new SanPham(form.getName(), Money.of(Integer.parseInt(form.getPrice()), EURO), form.getImage(), form.getMoTa(), type, loaisp);
+		
+		sanPhamCatalog.save(sp);
+		inventory.save(new InventoryItem(sp, Quantity.of(form.getSoLuong())));
+		
+		return "redirect:/product-manager";
+	}
+	
+	@PostMapping("/update-product/{id}")
+	public String updateProduct(@PathVariable("id") SanPham sanPham,@Valid SanPhamForm form, Errors result) {
+		
+		if (result.hasErrors()) {
+			return "product-manager";
+		}
+		
+		
+		
+		SanPhamType type = null;
+		if(form.getTypes().toLowerCase().equals("man")) {
+			type = SanPhamType.MAN;
+		}else if(form.getTypes().toLowerCase().equals("women")) {
+			type = SanPhamType.WOMEN;
+		}else {
+			type = SanPhamType.KID;
+		}
+		LoaiSanPham loaisp = null;
+		if(form.getLoaiSanPham().toLowerCase().equals("aothun")) {
+			loaisp=LoaiSanPham.AOTHUN;
+		}else if(form.getLoaiSanPham().toLowerCase().equals("aokhoat")) {
+			loaisp = LoaiSanPham.AOKHOAT;
+		}else if(form.getLoaiSanPham().toLowerCase().equals("aosomi")) {
+			loaisp = LoaiSanPham.AOSOMI;
+		}else if(form.getLoaiSanPham().toLowerCase().equals("quandai")){
+			loaisp = LoaiSanPham.QUANDAI;
+		}else {
+			loaisp = LoaiSanPham.QUANNGAN;
+		}
+		
+		sanPham.setName(form.getName());
+		sanPham.setPrice(Money.of(Integer.parseInt(form.getPrice()), EURO));
+		sanPham.setTypes(type);
+		sanPham.setLoaiSanPham(loaisp);
+		sanPham.setMota(form.getMoTa());
+		sanPham.setImage(form.getImage());
+		sanPhamCatalog.save(sanPham);
+		
+		return "redirect:/product-manager";
+	}
+	
+	
 	interface CommentAndRating {
 
 		@NotEmpty
@@ -270,8 +379,7 @@ public class CatalogController {
 		
 	
 		String getName();
-		
-		
+
 		
 		String getEmail();
 
@@ -285,5 +393,5 @@ public class CatalogController {
 		default Comment toCommentXacNhan(String name,String email, CommentTypes commentTypes, LocalDateTime time) {
 			return new Comment(name, email, getComment(), getRating(), commentTypes, time);
 		}
-	}
+	} 
 }

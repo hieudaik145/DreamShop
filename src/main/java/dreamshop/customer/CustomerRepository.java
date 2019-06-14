@@ -16,5 +16,7 @@ public interface CustomerRepository  extends CrudRepository<Customer, Long>{
 	
 	Iterable<Customer> findByUserAcount(UserAccount userAccount);
 	
+	Iterable<Customer> findByAddress(String name);
+	
 	
 }

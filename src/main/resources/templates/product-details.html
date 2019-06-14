@@ -91,7 +91,7 @@
 								<span>
 									<span th:text="${sanpham.price}">US $59</span>
 									<label>Quantity:</label>
-									<input type="number" name="soluong" value="1" min=1 max = 5 />
+									<input type="number" name="soluong" value="1" min=1 th:max="${soluong}"/>
 									<input type="hidden" name="pid" th:value="${sanpham.id}"/>
 									<button sec:authorize="!isAuthenticated()"  type="submit"class="btn btn-default add-to-cart " ><i class="fa fa-shopping-cart"></i>Add to cart</button>
 									<button sec:authorize="isAuthenticated()"  type="submit"class="btn btn-default add-to-cart add-single-cart" ><i class="fa fa-shopping-cart"></i>Add to cart</button>
@@ -286,11 +286,11 @@
 									
 									<form action="#" role="form" th:action="@{/detail/{id}/comments(id=${sanpham.id})}" method="post">
 										<span>
-											<input sec:authorize="!isAuthenticated()" type="text" placeholder="Your Name" name="name"/>
-											<input sec:authorize="!isAuthenticated()" type="email" placeholder="Email Address" name="email"/>
+											<input sec:authorize="!isAuthenticated()" type="text" placeholder="Your Name" name="name" required="required"/>
+											<input sec:authorize="!isAuthenticated()" type="email" placeholder="Email Address" name="email" required="required"/>
 										</span>
-										<textarea name="comment" placeholder="Content Review" ></textarea>
-										<b>Rating: </b> <input type="number" name="rating" min="1" max="5" value="1" />
+										<textarea name="comment" placeholder="Content Review" required="required" ></textarea>
+										<b>Rating: </b> <input type="number" name="rating" min="1" max="5" value="1" required="required"/>
 										<button type="submit" class="btn btn-default pull-right">
 											Submit
 										</button>
